@@ -25,6 +25,8 @@ class DBStorage {
     {
         return Boolean(this.db);
     }
+
+
 }
 
 const db_client = new DBStorage();

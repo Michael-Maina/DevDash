@@ -11,13 +11,13 @@ export class TerminalUI {
     this.terminal.setOption("theme", {
       background: "#202B33",
       foreground: "#F5F8FA",
-      cursor: 'white'
+      cursor: 'white',
     });
 
     this.terminal.setOption("cursorStyle", "bar"); // Set cursor to a block
-    // this.terminal.setOption("cursorBlink", true);    // Enable cursor blinking
-    // this.terminal.setOption('convertEol', true);
-    // this.terminal.setOption('fontSize', 1);
+    this.terminal.setOption("cursorBlink", true);    // Enable cursor blinking
+    this.terminal.setOption('convertEol', true);
+    this.terminal.setOption('fontSize', 16);
     this.socket = socket;
   }
 
@@ -43,7 +43,7 @@ export class TerminalUI {
    * Utility function to print new line on terminal.
    */
   prompt() {
-    this.terminal.write(`\r\n$ `);
+    this.terminal.write(`\r`);
   }
 
   /**

@@ -205,9 +205,9 @@ var TerminalUI = /*#__PURE__*/function () {
       cursor: 'white'
     });
     this.terminal.setOption("cursorStyle", "bar"); // Set cursor to a block
-    // this.terminal.setOption("cursorBlink", true);    // Enable cursor blinking
-    // this.terminal.setOption('convertEol', true);
-    // this.terminal.setOption('fontSize', 1);
+    this.terminal.setOption("cursorBlink", true); // Enable cursor blinking
+    this.terminal.setOption('convertEol', true);
+    this.terminal.setOption('fontSize', 16);
     this.socket = socket;
   }
 
@@ -242,7 +242,7 @@ var TerminalUI = /*#__PURE__*/function () {
   }, {
     key: "prompt",
     value: function prompt() {
-      this.terminal.write("\r\n$ ");
+      this.terminal.write("\r");
     }
 
     /**
@@ -10386,7 +10386,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "38549" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "40815" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];
