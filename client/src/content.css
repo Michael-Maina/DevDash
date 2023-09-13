@@ -1,0 +1,42 @@
+header {
+    background-color: #027333; /* Dark green header background */
+    color: #fff;
+    text-align: center;
+    padding: 20px;
+}
+h1 {
+    font-size: 36px;
+}
+h2, h3{
+    margin: 10px 0;
+}
+.container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff; /* White content background */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+code {
+    font-family: Consolas, monospace;
+    background-color: #f0f0f0; /* Light gray code background */
+    padding: 5px;
+    border: 1px solid #ddd; /* Light gray border */
+    border-radius: 3px;
+    display: block;
+    overflow-x: auto;
+    margin: 10px 5px;
+
+}
+/* Colorful elements */
+.highlight {
+    color: #027333; /* Dark green text */
+}
+
+.accent-bg {
+    background-color: #03A63C; /* Bright green background */
+    color: #fff; /* White text */
+    padding: 5px;
+    border-radius: 3px;
+}
