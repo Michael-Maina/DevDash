@@ -7,7 +7,7 @@ const DB_HOST = env.DB_HOST || "localhost";
 const DB_PORT = env.PORT || 9000;
 const DB_DATABASE = env.DB_DATABASE || "dev_dash";
 
-const url = `mongodb://${DB_HOST}:${DB_PORT}`;
+const url = `mongodb://${DB_HOST}:${DB_PORT}/${DB_DATABASE}`;
 
 class DBStorage {
 	constructor(){
