@@ -8,9 +8,12 @@ app.post('/createContainer', async (req, res) => {
   try {
     // Create a new container with the specified name
     const container = await docker.createContainer({
-      Image: 'ubuntu:20.04',
+      Image: 'docker-ptty',
       Cmd: ['bash'],
       Tty: true,
+      HostConfig: {
+        PortBindings: { '8080/tcp': [{ HostPort: '8080' }] }, // Map host port 8080 to container port 8080
+      },
     });
 
     // Start the container
