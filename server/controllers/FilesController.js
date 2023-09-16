@@ -10,7 +10,7 @@ const marked = require('marked');
 
 
 class FilesController {
-  static async formatConverter(filePath) {
+  async formatConverter(filePath) {
     /**
      * format_converter - reads a Markdown file and converts it to HTML
      *                  - the parsed HTML is sanitized then saved to the database/file
@@ -36,14 +36,14 @@ class FilesController {
       return;
 
     } catch(error) {
-      // Handle error 
+      // Handle error
       console.error(`Error while reading file: ${error}`)
     }
   }
 
   // static async get_html(title) {
   //   /**
-  //    * 
+  //    *
   //    */
   // }
 }

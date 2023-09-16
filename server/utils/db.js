@@ -4,7 +4,7 @@ import Article from './models/articles';
 import User from './models/users';
 
 const DB_HOST = env.DB_HOST || "localhost";
-const DB_PORT = env.PORT || 9000;
+const DB_PORT = env.PORT || 27017;
 const DB_DATABASE = env.DB_DATABASE || "dev_dash";
 
 const url = `mongodb://${DB_HOST}:${DB_PORT}/${DB_DATABASE}`;

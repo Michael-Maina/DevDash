@@ -1,9 +1,12 @@
-const filesController = require('./FilesController');
+const filesController = require("./FilesController");
 
-try {
-  filesController.formatConverter('./test.md')
-
-  console.log('Test successful');
-} catch(error){
-  console.error(error);
+async function main() {
+  try {
+    await filesController.formatConverter('./server/articles/markdown/intro_to_command_line.md');
+    console.log('Test successful');
+  } catch (error) {
+    console.error(error);
+  }
 }
+
+main();

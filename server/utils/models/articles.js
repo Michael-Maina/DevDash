@@ -16,7 +16,7 @@ class Article {
     });
   }
 }
+const articleSchema = new Article
+const article = mongoose.model('article', articleSchema.schema);
 
-const Article = mongoose.model('Article', Article.schema);    
-
-export default Article;
+export default article;
