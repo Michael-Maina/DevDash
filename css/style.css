@@ -249,7 +249,7 @@ header {
     display: grid;
     grid-template-columns: repeat(3 1fr);
     gap: 2rem;
-}
+} 
 
 .course {
     background-color: var(--color-bg1);
@@ -277,6 +277,7 @@ header {
 .faqs {
     background: var(--color-bg1);
     box-shadow: insert 0 0 3rem rgba(0, 0, 0, 0.5);
+    padding-top: 23rem;
 }
 
 .faqs_container {
@@ -356,4 +357,86 @@ header {
     left: 50%;
     top: -1.5rem;
     transform: rotate(45deg);
+}
+
+/* ============= FOOTER ============== */
+
+footer {
+    background: var(--color-bg1);
+    padding-top: 5rem;
+    font-size: 0.9rem;
+}
+
+.footer_container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 5rem;
+}
+
+.footer_container > div h4 {
+    margin-bottom: 1.2rem;
+}
+
+.footer_1 p {
+    margin: 0 0 2rem;
+}
+
+footer ul li {
+    margin-bottom: 0.7rem;
+}
+
+footer ul li a:hover {
+    text-decoration: underline;
+}
+
+.footer_socials {
+    display: flex;
+    gap: 1rem;
+    font-size: 1.2rem;
+    margin-top: 2rem;
+}
+
+.footer_copyright {
+    text-align: center;
+    margin-top: 4rem;
+    padding: 1.2rem 0;
+    border-top: 1px solid var(--color-bg2);
+}
+
+/* ============= MEDIA QUERIES (TABLETS) ============== */
+
+@media screen and (max-width: 1024px) {
+    .container {
+        width: var(--container-width-md);
+    }
+
+    h1 {
+        font-size: 2.2rem;
+    }
+
+    h2 {
+        font-size: 1.7rem;
+    }
+
+    h3 {
+        font-size: 1.4rem;
+    }
+
+    h4 {
+        font-size: 1.2rem;
+    }
+
+    /* ============= NAVBAR ============== */
+
+    nav button {
+        display: inline-block;
+        background: transparent;
+        font-size: 1.8rem;
+        color: var(--color-white);
+        cursor: pointer;
+    }
+
+    nav button#close-menu-btn {
+        display: none;
+    }
 }
