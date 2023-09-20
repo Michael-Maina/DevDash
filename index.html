@@ -14,6 +14,10 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 
+    <!-- SWIPER JS -->
+    <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css">
+
+
     <link rel="stylesheet" href="./css/style.css">
 </head>
 <body>
@@ -206,12 +210,102 @@
             </article>
         </div>
     </section>
+    <!--===================== END OF COURSES ============-->
+
+    <!--===================== TESTIMONIALS ============-->
+
+    <section class="container testimonials_container mySwiper">
+        <h2>Students' Testimonials</h2>
+        <div class="swiper-wrapper">
+            <article class="testimonial swiper-slide">
+                <div class="avatar">
+                    <img src="./images/avatar_1.jpg">
+                </div>
+                <div class="testimonial_info">
+                    <h5>Penny</h5>
+                    <small>Student</small>
+                </div>
+                <div class="testimonial_body">
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore, corrupti.</p>
+                </div>
+            </article>
+
+            <article class="testimonial swiper-slide">
+                <div class="avatar">
+                    <img src="./images/avatar_2.jpg">
+                </div>
+                <div class="testimonial_info">
+                    <h5>Sheldon</h5>
+                    <small>Full Stack Developer</small>
+                </div>
+                <div class="testimonial_body">
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore, corrupti.</p>
+                </div>
+            </article>
+
+            <article class="testimonial swiper-slide">
+                <div class="avatar">
+                    <img src="./images/avatar_3.jpg">
+                </div>
+                <div class="testimonial_info">
+                    <h5>Bernadette</h5>
+                    <small>Student</small>
+                </div>
+                <div class="testimonial_body">
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore, corrupti.</p>
+                </div>
+            </article>
+
+            <article class="testimonial swiper-slide">
+                <div class="avatar">
+                    <img src="./images/avatar_4.jpg">
+                </div>
+                <div class="testimonial_info">
+                    <h5>Howard</h5>
+                    <small>Robotics</small>
+                </div>
+                <div class="testimonial_body">
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore, corrupti.</p>
+                </div>
+            </article>
+
+            <article class="testimonial swiper-slide">
+                <div class="avatar">
+                    <img src="./images/avatar_5.jpg">
+                </div>
+                <div class="testimonial_info">
+                    <h5>Raj</h5>
+                    <small>Student</small>
+                </div>
+                <div class="testimonial_body">
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore, corrupti.</p>
+                </div>
+            </article>
+        </div>
+        <div class="swiper-pagination"></div>
+    </section>
 
 
-
-
-
+    <script src="https://unpkg.com/swiper@7/swiper-bundle.min.js"></script>
     <script src="./main.js"></script>
+
+
+    <script>
+        var swiper = new Swiper(".mySwiper", {
+            slidesPerView: 1,
+            spaceBetween: 30,
+            pagination: {
+            el: ".swiper-pagination",
+            clickable: true,
+            },
+            // when window width is >= 600px
+            breakpoints: {
+                600: {
+                    slidesPerView: 2,
+                }
+            }
+        });
+    </script>
 
 </body>
 </html>
