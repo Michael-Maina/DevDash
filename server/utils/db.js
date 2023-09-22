@@ -3,9 +3,8 @@ import env from 'process';
 import Article from './models/articles.js';
 import User from './models/users.js';
 
-
 class DBStorage {
-	constructor(){
+  constructor(){
     this.DB_HOST = env.DB_HOST || "localhost";
     this.DB_PORT = env.PORT || 27017;
     this.DB_DATABASE = env.DB_DATABASE || "dev_dash";
