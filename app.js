@@ -18,11 +18,7 @@ app.use('/:userId', userRouter);
 
 app.get('/', (req, res) => {
   res.send('<h1>Welcome to DevDash</h1>');
-})
-
-app.get('/login', (req, res) => {
-  res.send('<h1>Login to DevDash</h1>');
-})
+});
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
