@@ -29,12 +29,12 @@ class DBStorage {
   }
 
   isAlive() {
-      return Boolean(this.db);
+    return Boolean(this.db);
   }
 
   async closeConnection() {
-      await this.db.close();
-      console.log('Disconnected from MongoDB');
+    await this.db.close();
+    console.log('Disconnected from MongoDB');
   }
 }
 
