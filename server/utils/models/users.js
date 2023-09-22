@@ -9,7 +9,6 @@ class User {
       last_name: String,
       email: { type: String, unique: true },
       password: String,
-      salt: String,
       created_at: { type: Date, default: Date.now},
       updated_at: { type: Date, default: Date.now},
       schema_version: Number,

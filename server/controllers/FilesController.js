@@ -1,12 +1,8 @@
-// import createDOMPurify from 'dompurify';
-// import *  as fs from 'fs/promises';
-// import { JSDOM } from 'jsdom';
-// import { marked } from 'marked';
-// import db_client from '../utils/db';
-const createDOMPurify = require('dompurify');
-const fs = require('fs').promises;
-const { JSDOM } = require('jsdom');
-const marked = require('marked');
+import createDOMPurify from 'dompurify';
+import *  as fs from 'fs/promises';
+import { JSDOM } from 'jsdom';
+import { marked } from 'marked';
+import db_client from '../utils/db.js';
 
 
 class FilesController {
