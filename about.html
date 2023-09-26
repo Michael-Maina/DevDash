@@ -14,11 +14,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 
-    <!-- SWIPER JS -->
-    <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css">
-
 
     <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/about.css">
 </head>
 <body>
     <!--- Navbar -->
@@ -37,6 +35,44 @@
     </nav>
 
     <!-- END OF NAVBAR -->
+
+
+    <section class="about_achievements">
+        <div class="container about_achievements-container">
+            <div class="about_achievements-left">
+                <img src="./images/about_achievement.jpg">
+            </div>
+            <div class="about_achievements-right">
+                <h1>Achievements</h1>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo illum temporibus minima aperiam consectetur provident commodi veniam nulla, soluta id natus eum assumenda repellendus cumque sed delectus incidunt esse illo.</p>
+                <div class="achievements_cards">
+                    <article class="achievement_card">
+                        <span class="achievement_icon">
+                            <i class="uil uil-video"></i>
+                        </span>
+                        <h3>450+</h3>
+                        <p>Courses</p>
+                    </article>
+
+                    <article class="achievement_card">
+                        <span class="achievement_icon">
+                            <i class="uil uil-users-alt"></i>
+                        </span>
+                        <h3>79000+</h3>
+                        <p>Students</p>
+                    </article>
+
+                    <article class="achievement_card">
+                        <span class="achievement_icon">
+                            <i class="uil uil-trophy"></i>
+                        </span>
+                        <h3>27</h3>
+                        <p>Awards</p>
+                    </article>
+                </div>
+            </div>
+        </div>
+    </section>
 
 
     <footer class="footer">
@@ -96,27 +132,6 @@
 
 
 
-
-    <script src="https://unpkg.com/swiper@7/swiper-bundle.min.js"></script>
     <script src="./main.js"></script>
-
-
-    <script>
-        var swiper = new Swiper(".mySwiper", {
-            slidesPerView: 1,
-            spaceBetween: 30,
-            pagination: {
-            el: ".swiper-pagination",
-            clickable: true,
-            },
-            // when window width is >= 600px
-            breakpoints: {
-                600: {
-                    slidesPerView: 2,
-                }
-            }
-        });
-    </script>
-
 </body>
 </html>
