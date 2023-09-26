@@ -203,6 +203,12 @@ img {
     margin-top: 15px;
 }
 
+.wrapper .btn:hover {
+    background: transparent;
+    color: none;
+    border-color: var(--color-white);
+}
+
 .wrapper .register-link {
     font-size: 14.5px;
     text-align: center;
