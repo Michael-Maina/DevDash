@@ -14,7 +14,8 @@ const app = express();
 app.use(express.json());
 app.use(cookieParser());
 app.use('/auth', authRouter);
-app.use('/:userId', userRouter);
+app.use('/user', userRouter); // Used for the login path
+app.use('/user/:userId', userRouter); // Used after login, with userId now available
 
 app.get('/', (req, res) => {
   res.send('<h1>Welcome to DevDash</h1>');

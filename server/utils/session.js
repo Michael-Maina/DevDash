@@ -10,8 +10,6 @@ class Session {
     // Convert expiration time from hours to seconds
     const expSeconds = expiration * 60 * 60;
 
-    console.log(`Redis connection: ${redisClient.isAlive()}`);
-
     try {
       redisClient.set(session_key, valueStr, expSeconds)
       console.log('Redis Setting Key Successful');
@@ -19,24 +17,22 @@ class Session {
     }
     catch (error) {
       console.error(`Redis Setting Key Error: ${error.message}`);
+      throw error;
     };
-    // console.log('After setting token');
   }
 
   static async getUser(token) {
     // Retrieve user access token and remaining time till expiration
     const session_key = `user_${token}`;
     try {
-      const userId = redisClient.get(session_key);
-      console.log(`Found user id: ${userId}`);
-
-      const remTime = redisClient.checkExpiration(session_key);
-      console.log(`Found remaining time: ${remTime}`);  
+      const userId = await redisClient.get(session_key);
+      const remTime = await redisClient.checkExpiration(session_key);
 
       return { userId, remTime };
     }
     catch (error) {
       console.error(`Redis Key Retrieval Error: ${error.message}`);
+      throw error;
     }
   }
 
@@ -44,11 +40,12 @@ class Session {
     const session_key = `user_${token}`;
     try {
       await redisClient.del(session_key);
-      console.error('Redis Key Deletion Successful');
+      console.log('Redis Key Deletion Successful');
       return;
     }
     catch (error) {
       console.error(`Redis Key Deletion Error: ${error.message}`);
+      throw error;
     }
   }
 }

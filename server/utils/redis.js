@@ -4,17 +4,20 @@ import { promisify } from 'util';
 
 class RedisClient {
   constructor() {
-    (async () => {
-      this.client = createClient();
-      await this.client.connect();
-      this.client.on('error', (error) => {
-        console.log(`Redis Client Connection Error: ${error.message}`);
-      });
-
-      this.client.on('connect', () => {
-        console.log("Redis Client connected succesfully");
+    this.client = createClient();
+    this.client.on('error', (error) => {
+      console.log(`Redis Client Connection Error: ${error.message}`);
     });
-  })();
+
+    this.client.on('connect', () => {
+      console.log("Redis Client connected succesfully");
+    });
+
+    this.connectAsync();
+  }
+
+  async connectAsync() {
+    await this.client.connect();
   }
 
   isAlive() {
@@ -22,28 +25,48 @@ class RedisClient {
   }
 
   async get(key) {
-    const getAsync = promisify(this.client.get).bind(this.client);
-    const value = await getAsync(key);
-    return value;
+    // const getAsync = promisify(this.client.get).bind(this.client);
+    try {
+      const value = await this.client.get(key);
+      return value;
+    } catch(error) {
+      console.error('Redis Key Retrieval Error');
+      throw error;
+    }
   }
 
   async set(key, value, time) {
-    const asyncSet = promisify(this.client.set).bind(this.client);
-    await asyncSet(key, value, {
-      EX: time
-    });
-    return;
+    // const asyncSet = promisify(this.client.set).bind(this.client);
+    try {
+      await this.client.set(key, value, {
+        EX: time
+      });
+      return;
+    } catch(error) {
+      console.error('Redis Key Setting Error');
+      throw error;
+    }
   }
 
   async del(key) {
-    this.client.del(key);
+    try {
+      await this.client.del(key);
+    } catch(error) {
+      console.error('Redis Key Deletion Error');
+      throw error;
+    }
     return;
   }
 
   async checkExpiration(key) {
-    const asyncTtl = promisify(this.client.ttl).bind(this.client);
-    const remainingTime = await asyncTtl(key);
-    return remainingTime;
+    // const asyncTtl = promisify(this.client.ttl).bind(this.client);
+    try {
+      const remainingTime = await this.client.ttl(key);
+      return remainingTime;
+    } catch(error) {
+      console.error('Redis TTL Retrieval Error');
+      throw error;
+    }
   }
 }
 
