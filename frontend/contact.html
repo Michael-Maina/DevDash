@@ -14,11 +14,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 
-    <!-- SWIPER JS -->
-    <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css">
-
-
     <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/login.css">
 </head>
 <body>
     <!--- Navbar -->
@@ -28,8 +25,8 @@
             <ul class="nav_menu">
                 <li><a href="index.html">Home</a></li>
                 <li><a href="about.html">About</a></li>
-                <li><a href="courses.html">Courses</a></li>
-                <li><a href="contact.html">Contact</a></li>
+                <li><a href="explore.html">Explore</a></li>
+                <li><a href="login.html">Login</a></li>
             </ul>
             <button id="open-menu-btn"><i class="uil uil-bars"></i></button>
             <button id="close-menu-btn"><i class="uil uil-multiply"></i></button>
@@ -38,9 +35,34 @@
 
     <!-- END OF NAVBAR -->
 
+    <div class="wrapper">
+        <form action="">
+            <h1>Login</h1>
+            <div class="input-box">
+                <input type="text" placeholder="Username" required>
+                <i class="bx bxs-user"></i>
+            </div>
+            <div class="input-box">
+                <input type="password" placeholder="Password" required>
+                <i class="bx bxs-lock-alt"></i>
+            </div>
+
+            <div class="remember-forgot">
+                <label><input type="checkbox"> Remember me </label>
+                <a href="#">Forgot password?</a>
+            </div>
+
+            <button type="submit" class="btn">Login</button>
+
+            <div class="register-link">
+                <p>Don't have an account? <a href="#">Sign up</a></p>
+            </div>
+        </form>
+    </div>
 
 
-    <section class="contact">
+
+    <!--<section class="contact">
         <div class="container contact_container">
             <aside class="contact_aside">
                 <div class="aside_image">
@@ -51,26 +73,26 @@
                 ul
             </aside>
         </div>
-    </section>
+    </section> --> 
 
 
 
     <footer class="footer">
         <div class="container footer_container">
             <div class="footer_1">
-                <a href="index.html" class="footer_logo"><h4>DevDash</h4></a>
+                <a href="login.html" class="footer_logo"><h4>DevDash</h4></a>
                 <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim, nam!</p>
             </div>
 
-            <div class="footer_2">
+          <!--<div class="footer_2">
                 <h4>Permalinks</h4>
                 <ul class="nav_menu">
                     <li><a href="index.html">Home</a></li>
                     <li><a href="about.html">About</a></li>
                     <li><a href="courses.html">Courses</a></li>
-                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="login.html">Login</a></li>
                 </ul>
-            </div>
+            </div> -->
 
             <div class="footer_3">
                 <h4>Primacy</h4>
@@ -111,27 +133,8 @@
 
 
 
-
-    <script src="https://unpkg.com/swiper@7/swiper-bundle.min.js"></script>
     <script src="./main.js"></script>
 
-
-    <script>
-        var swiper = new Swiper(".mySwiper", {
-            slidesPerView: 1,
-            spaceBetween: 30,
-            pagination: {
-            el: ".swiper-pagination",
-            clickable: true,
-            },
-            // when window width is >= 600px
-            breakpoints: {
-                600: {
-                    slidesPerView: 2,
-                }
-            }
-        });
-    </script>
 
 </body>
 </html>
