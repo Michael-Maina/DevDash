@@ -10,7 +10,7 @@ const __filename = fileURLToPath(import.meta.url);
 // Get the directory name
 const __dirname = dirname(__filename);
 
-const PORT = 3000;
+const PORT = 5000;
 
 const app = express();
 
@@ -32,6 +32,10 @@ app.get('/about', (req, res) => {
 
 app.get('/login', (req, res) => {
   res.sendFile(__dirname + "/public/login.html");
+});
+
+app.get('/signup', (req, res) => {
+  res.sendFile(__dirname + "/public/signup.html");
 });
 
 app.use(express.static(path.join(__dirname, 'dist')));

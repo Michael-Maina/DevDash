@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE-edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+
+    <!-- ICONSCOUT CDN -->
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v2.1.6/css/unicons.css">
+
+    <!-- GOOGLE FONTS (MONTESERRAT) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/signup.css">
+</head>
+<body>
+    <!--- Navbar -->
+    <nav>
+        <div class="container nav_container">
+            <a href="index.html"><h4>DevDash</h4></a>
+            <ul class="nav_menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="explore.html">Explore</a></li>
+                <li><a href="login.html">Login</a></li>
+            </ul>
+            <button id="open-menu-btn"><i class="uil uil-bars"></i></button>
+            <button id="close-menu-btn"><i class="uil uil-multiply"></i></button>
+        </div>
+    </nav>
+
+    <!-- END OF NAVBAR -->
+
+    <div class="wrapper">
+        <form action="">
+            <h1>Signup</h1>
+            <div class="input-box" >
+                <input id="firstname" type="text" placeholder="first name" required>
+                <!-- <i class="bx bxs-user"></i> -->
+            </div>
+            <div class="input-box" >
+                <input id="lastname" type="text" placeholder="last name" required>
+                <!-- <i class="bx bxs-user"></i> -->
+            </div>
+            <div class="input-box" >
+                <input id="email" type="text" placeholder="email" required>
+                <!-- <i class="bx bxs-user"></i> -->
+            </div>
+            <div class="input-box password" >
+                <input id="password" type="password" placeholder="password" required>
+                <!-- <i class="bx bxs-lock-alt"></i> -->
+            </div>
+
+            <button class="btn" id="defaultSignup" >Signup</button>
+            <a href="javascript:void(0);" onclick="window.location.href = getGoogleAuthURL();">Login with Google</a>
+
+        </form>
+    </div>
+
+
+    <footer class="footer">
+        <div class="container footer_container">
+            <div class="footer_1">
+                <a href="login.html" class="footer_logo"><h4>DevDash</h4></a>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim, nam!</p>
+            </div>
+
+          <!--<div class="footer_2">
+                <h4>Permalinks</h4>
+                <ul class="nav_menu">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="courses.html">Courses</a></li>
+                    <li><a href="login.html">Login</a></li>
+                </ul>
+            </div> -->
+
+            <div class="footer_3">
+                <h4>Primacy</h4>
+                <ul class="privacy">
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms and conditions</a></li>
+                    <li><a href="#">Refund Policy</a></li>
+                </ul>
+            </div>
+
+            <div class="footer_4">
+                <h4>Contact Us</h4>
+                <div>
+                    <p>+254 123 456 789</p>
+                    <p>devdash@gmail.com</p>
+                </div>
+
+                <ul class="footer_socials">
+                    <li>
+                        <a href="#"><i class="uil uil-facebook-f"></i></a>
+                    </li>
+                    <li>
+                        <a href="#"><i class="uil uil-instagram-alt"></i></a>
+                    </li>
+                    <li>
+                        <a href="#"><i class="uil uil-twitter"></i></a>
+                    </li>
+                    <li>
+                        <a href="#"><i class="uil uil-linkedin-alt"></i></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer_copyright">
+            <small>Copyright &copy; DevDash@2023</small>
+        </div>
+    </footer>
+
+
+
+    <script src="./main.js"></script>
+    <script src="./js/getGoogleAuthURL.js"></script>
+    <script src="./js/signup.js"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script> -->
+
+</body>
+</html>

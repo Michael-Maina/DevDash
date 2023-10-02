@@ -11,6 +11,8 @@ class Cookies {
       `Expires=${expiryDate}`,
       'domain=flanders.tech',
       'SameSite=Strict',
+      'HttpOnly',
+      'Secure',
     ];
 
     return cookiesToSend;
