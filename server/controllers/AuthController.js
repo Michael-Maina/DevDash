@@ -57,7 +57,7 @@ export default class AuthController {
 				// await db.closeConnection();
 				// console.log(`Is database connection alive? ${db.isAlive()}`);
 
-				return res.redirect(302, 'http://localhost:5000/login');
+				return res.status(200).redirect('/user/login');
 			});
 		});
 	}
