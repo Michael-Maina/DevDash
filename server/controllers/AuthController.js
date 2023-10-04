@@ -56,7 +56,8 @@ export default class AuthController {
 
 				// Save new user in database
 				await newUser.save();
-				return res.redirect(302, '/user/login');
+
+				return res.status(200).redirect('/user/login');
 			});
 		});
 	}

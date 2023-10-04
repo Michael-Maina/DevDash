@@ -37,7 +37,7 @@ canvas{
   resize: horizontal;
   overflow: auto;
   background-color: #f7f7f7;
-  min-width: 40%;
+  min-width: 50%;
 }
 .term-div{
   flex: 1;

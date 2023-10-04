@@ -34,9 +34,7 @@ export default class GoogleAuthController {
       const access_token = result.data.access_token;
       const refresh_token = result.data.refresh_token;
       const expires_in = result.data.expires_in;
-      // console.log(`ID Token: ${id_token}`);
-      // console.log(`Access Token: ${access_token}`);
-
+     
       // Get the user with ID token
       // Access token used with network request to Google API
       const googleUser = jwt.decode(id_token);

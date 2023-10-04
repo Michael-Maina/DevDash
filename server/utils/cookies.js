@@ -1,6 +1,4 @@
-import session from './session.js';
-
-class Cookies {
+export default class Cookies {
   static async setCookies(token, expiration) {
     const expiryDate = new Date();
     expiryDate.setTime(expiryDate.getTime() + expiration * 60 * 60 * 1000);
@@ -18,5 +16,3 @@ class Cookies {
     return cookiesToSend;
   }
 }
-
-export default Cookies;

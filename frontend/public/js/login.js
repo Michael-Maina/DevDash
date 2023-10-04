@@ -1,24 +1,18 @@
-function signupFunc()
+function loginFunc()
 {
-    let firstName = document.querySelector("#firstname").value;
-    let lastName = document.querySelector("#lastname").value;
     let email = document.querySelector("#email").value;
     let password = document.querySelector("#password").value;
 
-    let signup_data = {'firstName': firstName,
-                        'lastName': lastName,
-                        'email': email,
-                        'password': password
-                    };
+    let login_data = {'email': email, 'password': password};
 
-    console.log(signup_data);
+    console.log(login_data);
 
-    fetch('http://localhost:3000/auth/signup', {
+    fetch('http://localhost:3000/user/login', {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
         },
-        body: JSON.stringify(signup_data),
+        body: JSON.stringify(login_data),
         })
         .then((response) => {
             console.log(response);
@@ -27,11 +21,6 @@ function signupFunc()
                 window.location.href = response.url;
             }
         })
-        // .then((data) => {
-        //     // Handle the API response
-        //     console.log("Default signup");
-        //     console.log(data);
-        // })
         .catch((error) => {
             // Handle any errors
             console.error("Error:", error);
@@ -41,6 +30,5 @@ let form = document.querySelector(".wrapper form");
 
 form.addEventListener("submit", (e) =>{
     e.preventDefault();
-    signupFunc();
+    loginFunc();
 });
-

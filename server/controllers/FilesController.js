@@ -1,18 +1,10 @@
-import createDOMPurify from 'dompurify';
-import *  as fs from 'fs/promises';
-import { JSDOM } from 'jsdom';
-import { marked } from 'marked';
 import db_client from '../utils/db.js';
-
+import fs from 'fs/promises';
+import { marked } from 'marked';
+import cheerio from 'cheerio'; // Import cheerio
 
 class FilesController {
   async formatConverter(filePath) {
-    /**
-     * format_converter - reads a Markdown file and converts it to HTML
-     *                  - the parsed HTML is sanitized then saved to the database/file
-     * @filePath - path to Markdown file
-     * Return - writes an HTML file in articles/html
-     */
     try {
       // Read the Markdown file
       const md_data = (await fs.readFile(filePath)).toString();
@@ -20,23 +12,27 @@ class FilesController {
       // Parse the Markdown into HTML
       const parsed_html = marked.parse(md_data);
 
-      // Create DOM before sanitizing parsed HTML
-      const window = new JSDOM('').window;
-      const DOMPurify = createDOMPurify(window);
+      // Load the HTML template
+      const templatePath = '/home/murags/Dennis/DevDash/frontend/tutorial.html'; // Update the path as needed
+      const templateHtml = (await fs.readFile(templatePath)).toString();
 
-      // Sanitize parsed HTML and save it to file
-      const clean_html = DOMPurify.sanitize(parsed_html);
+      // Load the template HTML into cheerio
+      const $ = cheerio.load(templateHtml);
 
-      await fs.writeFile('test.html', clean_html);
-      console.log('Test.html file created successfully');
+      // Find the content div and insert the parsed HTML
+      $('.content').html(parsed_html);
+
+      // Get the modified HTML
+      const modifiedHtml = $.html();
+
+      // Write the modified HTML to a new file
+      await fs.writeFile('/home/murags/Dennis/DevDash/frontend/content_page.html', modifiedHtml);
       return;
-
-    } catch(error) {
+    } catch (error) {
       // Handle error
-      console.error(`Error while reading file: ${error}`)
+      console.error(`Error while reading file: ${error}`);
     }
   }
-
   // static async get_html(title) {
   //   /**
   //    *
@@ -46,4 +42,4 @@ class FilesController {
 
 const filesController = new FilesController();
 
-module.exports = filesController;
+export default filesController;
