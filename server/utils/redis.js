@@ -51,6 +51,7 @@ class RedisClient {
   async del(key) {
     try {
       await this.client.del(key);
+      return;
     } catch(error) {
       console.error('Redis Key Deletion Error');
       throw error;
@@ -65,6 +66,46 @@ class RedisClient {
       return remainingTime;
     } catch(error) {
       console.error('Redis TTL Retrieval Error');
+      throw error;
+    }
+  }
+
+  async setAdd(key, value) {
+    // Add value as a member to the set key
+    try {
+      const result = await this.client.sAdd(key, value);
+      if (result === 0) {
+        console.log(`${value} already exists in ${key}`);
+      }
+      return;
+    } catch(error) {
+      console.error('Redis Setting Set Member Error');
+      throw error;
+    }
+  }
+
+  async setIsMember(key, value) {
+    // Check if value is a member of the set key
+    try {
+      const result = await this.client.sIsMember(key, value);
+      if (result === 0) {
+        return false;
+      } else {
+        return true;
+      }
+    } catch(error) {
+      console.error('Redis Setting Set Member Error');
+      throw error;
+    }
+  }
+
+  async setRemove(key, value) {
+    // Remove the value as a member of the set key
+    try {
+      await this.client.sRem(key, value);
+      return;
+    } catch(error) {
+      console.error('Redis Setting Set Member Error');
       throw error;
     }
   }

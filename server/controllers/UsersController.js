@@ -3,6 +3,7 @@ import DBStorage from '../utils/db.js';
 import Session from '../utils/session.js';
 import Cookies from '../utils/cookies.js';
 import User from "../utils/models/users.js";
+import PortHandler from '../utils/portHandler.js';
 
 const db = new DBStorage();
 
@@ -19,24 +20,18 @@ export default class UsersController {
 
 		// Establish a connection to the database
 		await db.connect();
-		// console.log(`Is database connection alive? ${db.isAlive()}`);
 
 		const user = await User.findOne({ email }).exec();
 
 		if (!user) {
-			// await db.closeConnection();
-
 			console.error('User Retrieval Error');
 			return res.status(404).redirect('/user/signup');
 		}
 
 		// Check if user is already signed in
 		const session_key = req.cookies.session;
-		console.log(`Session_cookie: ${session_key}`);
 		if (session_key) {
 			let userSessionToken = await Session.getUser(session_key);
-			// userSessionToken.then((res) => console.log(`This is the promise: ${res}`));
-			console.log(`Checking if user signed in: ${userSessionToken.userId}`);
 			if (userSessionToken)
 				return res.status(200).redirect(`/user/${user._id}/explore`);
 		}
@@ -44,9 +39,6 @@ export default class UsersController {
 		const hashedPassword = user.password;
 		bcrypt.compare(password, hashedPassword, async (err, result) => {
 			if (err) {
-				// await db.closeConnection();
-				// console.log(`Is database connection alive? ${db.isAlive()}`);
-
 				console.error('Password Decryption Error');
 				return res.status(500).redirect('/');
 			}
@@ -56,12 +48,13 @@ export default class UsersController {
 					const expiration = process.env.SESSION_EXPIRATION || 24;
 					const userSessionToken = await Session.setUser(user._id, expiration);
 
+					// Add user's assigned port to ports in use
+					await PortHandler.setPort('ports:in_use', user.port);
+
 					const cookies = await Cookies.setCookies(userSessionToken, expiration);
 
 					// Sending cookies to browser
 					res.set('Set-Cookie', [...cookies]);
-					// await db.closeConnection();
-					// console.log(`Is database connection alive? ${db.isAlive()}`);
 
 					return res.status(200).redirect(`/user/${user._id}/explore`);
 				} catch (error) {
@@ -69,9 +62,6 @@ export default class UsersController {
 				}
 			}
 			else {
-				// await db.closeConnection();
-				// console.log(`Is database connection alive? ${db.isAlive()}`);
-
 				return res.status(401).send('Error: Incorrect password');
 			}
 		})
@@ -111,21 +101,15 @@ export default class UsersController {
 
 		// Establish a connection to the database
 		await db.connect();
-		// console.log(`Is database connection alive? ${db.isAlive()}`);
 
 		const userId = (await Session.getUser(userSessionToken)).userId;
 		if (!userId) {
-			// await db.closeConnection();
-			// console.log(`Is database connection alive? ${db.isAlive()}`);
-
 			return res.status(401).redirect('/user/login');
 		}
 
 		const user = await User.findById({ _id: userId });
 
 		if (!user) {
-			// await db.closeConnection();
-			// console.log(`Is database connection alive? ${db.isAlive()}`);
 
 			console.error('User Retrieval Error');
 			return res.status(404).redirect('/user/login');
@@ -141,9 +125,6 @@ export default class UsersController {
 			bcrypt.genSalt(10, (err, salt) => {
 				bcrypt.hash(password, salt, async (err, hash) => {
 					if (err) {
-						// await db.closeConnection();
-						// console.log(`Is database connection alive? ${db.isAlive()}`);
-
 						console.error('Password Encryption Error');
 						return res.status(500).redirect('/');
 					}
@@ -161,10 +142,6 @@ export default class UsersController {
 			await User.updateOne(
 				{ _id: userId }, { last_name: lastName }, { updated_at: new Date() });
 		}
-
-		// Close connection to the database
-		// await db.closeConnection();
-		// console.log(`Is database connection alive? ${db.isAlive()}`);
 
 		return res.status(200).send('User details updated successfully');
 	}
@@ -184,13 +161,9 @@ export default class UsersController {
 		}
 
 		await db.connect();
-		// console.log(`Is database connection alive? ${db.isAlive()}`);
 
 		await User.deleteOne({ _id: userId });
 		await Session.deleteUser(userSessionToken);
-
-		// await db.closeConnection();
-		// console.log(`Is database connection alive? ${db.isAlive()}`);
 
 		return res.status(204).redirect('/');
 	}
@@ -206,17 +179,15 @@ export default class UsersController {
 
 		// Check if user is already signed in
 		const session_key = req.cookies.session;
-		console.log(`Session_cookie: ${session_key}`);
+
 		if (session_key) {
 		  let userSessionToken = await Session.getUser(session_key);
-		  console.log(`Checking if user signed in: ${userSessionToken.userId}`);
-
 		  if (userSessionToken)
 		    return res.status(200).redirect(`/user/${userSessionToken.userId}/explore`);
 		}
 
 		const userTokenData = req.userTokenData;
-		console.log(`User Token Data: ${userTokenData}`);
+
 		if (!userTokenData) {
 			console.error('Missing User Token Data from Google Login');
 			return res.status(403).redirect('/user/login');
@@ -224,15 +195,16 @@ export default class UsersController {
 
 		// Create a session for the user
 		const expiration = userTokenData.expires_in / 3600; // Convert expires_in from seconds to hours
-		const userSessionToken = await Session.setUser(userTokenData.userId, expiration);
+		const userSessionToken = await Session.setUser(
+			userTokenData.userId, expiration, userTokenData.accessToken
+			);
+		await PortHandler.setPort('ports:in_use', userTokenData.userPort);
 
 		// Set cookies
 		const cookies = await Cookies.setCookies(userSessionToken, expiration);
 
 		// Sending cookies to browser
 		res.set('Set-Cookie', [...cookies]);
-		// await db.closeConnection();
-		// console.log(`Is database connection alive? ${db.isAlive()}`);
 
 		// Redirect back to the client
 		return res.status(200).redirect(`/user/${userTokenData.userId}/explore`);

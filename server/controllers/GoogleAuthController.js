@@ -1,10 +1,8 @@
 import axios from 'axios';
 import jwt from 'jsonwebtoken';
 import qs from 'qs';
-import sha1 from 'sha1';
 import DBStorage from '../utils/db.js';
-import Session from '../utils/session.js';
-import Cookies from '../utils/cookies.js';
+import PortHandler from '../utils/portHandler.js';
 import User from "../utils/models/users.js";
 
 const db = new DBStorage();
@@ -24,7 +22,7 @@ export default class GoogleAuthController {
       redirect_uri: process.env.GOOGLE_TEST_REDIRECT_URI,
       grant_type: 'authorization_code',
     };
-    console.log(values);
+
     try {
       const result = await axios.post(rootUrl, qs.stringify(values), {
         headers: {
@@ -50,6 +48,10 @@ export default class GoogleAuthController {
       await db.connect()
       const schemaVersion = process.env.SCHEMA_VERSION || 1.0;
 
+      // Create user port and add to assigned ports set in Redis
+      const userPort = PortHandler.assignPort();
+      await PortHandler.setPort('ports:assigned', userPort);
+
       const newUser = await User.findOneAndUpdate(
         { email: googleUser.email },
         {
@@ -58,6 +60,7 @@ export default class GoogleAuthController {
           email: googleUser.email,
           login: 'Google',
           refresh_token: refresh_token,
+          port: userPort,
           schema_version: schemaVersion,
         },
         {
@@ -66,12 +69,13 @@ export default class GoogleAuthController {
         }
       );
 
-      // Add googleUser tokens as JSON to req object
+      // Add googleUser tokens to req object
       const userTokenData = {
         access_token,
         refresh_token,
         expires_in,
         userId: newUser._id,
+        userPort,
       }
       req.userTokenData = userTokenData;
 
