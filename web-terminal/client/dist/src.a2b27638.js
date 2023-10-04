@@ -9568,7 +9568,6 @@ function start() {
   var container = document.getElementById("terminal-container");
   // Connect to socket and when it is available, start terminal.
   connectToSocket(serverAddress).then(function (socket) {
-    console.log(socket);
     startTerminal(container, socket);
   });
 }
@@ -9600,7 +9599,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "37747" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "42095" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];

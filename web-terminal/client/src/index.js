@@ -32,7 +32,6 @@ function start() {
   const container = document.getElementById("terminal-container");
   // Connect to socket and when it is available, start terminal.
   connectToSocket(serverAddress).then(socket => {
-    console.log(socket);
     startTerminal(container, socket);
   });
 }
