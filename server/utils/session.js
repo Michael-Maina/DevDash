@@ -2,7 +2,7 @@ import { v4 as uuidv4 } from 'uuid';
 import redisClient from './redis.js';
 
 class Session {
-  static async setUser(value, expiration, access_token=None) {
+  static async setUser(value, expiration, access_token) {
     // Access token for users with Google
     if (access_token) {
       var token = access_token;

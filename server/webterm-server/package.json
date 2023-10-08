@@ -7,9 +7,6 @@
     "start": "nodemon src/index.js localhost 8080"
   },
   "dependencies": {
-    "dockerode": "^3.3.5",
-    "express": "^4.18.2",
-    "node-docker-api": "^1.1.22",
     "node-pty": "0.9.0",
     "socket.io": "2.3.0"
   },

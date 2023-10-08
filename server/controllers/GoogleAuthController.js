@@ -39,7 +39,7 @@ export default class GoogleAuthController {
       // Access token used with network request to Google API
       const googleUser = jwt.decode(id_token);
       if (!googleUser.email_verified) {
-        return res.status(403).send('Google account is not verified');
+        return res.status(403).redirect('/auth/signup');
       }
 
       // Upsert the user into the database
@@ -47,8 +47,9 @@ export default class GoogleAuthController {
       const schemaVersion = process.env.SCHEMA_VERSION || 1.0;
 
       // Create user port and add to assigned ports set in Redis
-      const userPort = PortHandler.assignPort();
-      await PortHandler.setPort('ports:assigned', userPort);
+      const portsAssigned = process.env.REDIS_PORTS_ASSIGNED;
+      const userPort = await PortHandler.assignPort();
+      await PortHandler.setPort(portsAssigned, userPort);
 
       const newUser = await User.findOneAndUpdate(
         { email: googleUser.email },
@@ -66,13 +67,12 @@ export default class GoogleAuthController {
           new: true,
         }
       );
-
       // Add googleUser tokens to req object
       const userTokenData = {
         access_token,
         refresh_token,
         expires_in,
-        userId: newUser._id,
+        userId: newUser._id.toString(),
         userPort,
       }
       req.userTokenData = userTokenData;

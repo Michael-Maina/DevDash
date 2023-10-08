@@ -30,7 +30,7 @@ class RedisClient {
       const value = await this.client.get(key);
       return value;
     } catch(error) {
-      console.error('Redis Key Retrieval Error');
+      console.error(`Redis ${this.get.name} Error: ${error.message}`);
       throw error;
     }
   }
@@ -43,7 +43,7 @@ class RedisClient {
       });
       return;
     } catch(error) {
-      console.error('Redis Key Setting Error');
+      console.error(`Redis ${this.set.name} Error: ${error.message}`);
       throw error;
     }
   }
@@ -53,7 +53,7 @@ class RedisClient {
       await this.client.del(key);
       return;
     } catch(error) {
-      console.error('Redis Key Deletion Error');
+      console.error(`Redis ${this.del.name} Error: ${error.message}`);
       throw error;
     }
     return;
@@ -65,7 +65,7 @@ class RedisClient {
       const remainingTime = await this.client.ttl(key);
       return remainingTime;
     } catch(error) {
-      console.error('Redis TTL Retrieval Error');
+      console.error(`Redis ${this.checkExpiration.name} Error: ${error.message}`);
       throw error;
     }
   }
@@ -73,13 +73,13 @@ class RedisClient {
   async setAdd(key, value) {
     // Add value as a member to the set key
     try {
-      const result = await this.client.sAdd(key, value);
+      const result = await this.client.sAdd(key, value.toString());
       if (result === 0) {
         console.log(`${value} already exists in ${key}`);
       }
       return;
     } catch(error) {
-      console.error('Redis Setting Set Member Error');
+      console.error(`Redis ${this.setAdd.name} Error: ${error.message}`);
       throw error;
     }
   }
@@ -87,14 +87,14 @@ class RedisClient {
   async setIsMember(key, value) {
     // Check if value is a member of the set key
     try {
-      const result = await this.client.sIsMember(key, value);
+      const result = await this.client.sIsMember(key, value.toString());
       if (result === 0) {
         return false;
       } else {
         return true;
       }
     } catch(error) {
-      console.error('Redis Setting Set Member Error');
+      console.error(`Redis ${this.setIsMember.name} Error: ${error.message}`);
       throw error;
     }
   }
@@ -102,10 +102,10 @@ class RedisClient {
   async setRemove(key, value) {
     // Remove the value as a member of the set key
     try {
-      await this.client.sRem(key, value);
+      await this.client.sRem(key, value.toString());
       return;
     } catch(error) {
-      console.error('Redis Setting Set Member Error');
+      console.error(`Redis ${this.setRemove.name} Error: ${error.message}`);
       throw error;
     }
   }

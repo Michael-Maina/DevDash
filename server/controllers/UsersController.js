@@ -24,7 +24,7 @@ export default class UsersController {
 		const user = await User.findOne({ email }).exec();
 
 		if (!user) {
-			console.error('User Retrieval Error');
+			console.error(`${this.login.name}: User Retrieval Error`);
 			return res.status(404).redirect('/user/signup');
 		}
 
@@ -33,13 +33,14 @@ export default class UsersController {
 		if (session_key) {
 			let userSessionToken = await Session.getUser(session_key);
 			if (userSessionToken)
+				console.log('Session Token found');
 				return res.status(200).redirect(`/user/${user._id}/explore`);
 		}
 
 		const hashedPassword = user.password;
 		bcrypt.compare(password, hashedPassword, async (err, result) => {
 			if (err) {
-				console.error('Password Decryption Error');
+				console.error(`${this.login.name}: Password Decryption Error`);
 				return res.status(500).redirect('/');
 			}
 			else if (result === true) {
@@ -49,16 +50,20 @@ export default class UsersController {
 					const userSessionToken = await Session.setUser(user._id, expiration);
 
 					// Add user's assigned port to ports in use
-					await PortHandler.setPort('ports:in_use', user.port);
+					const portsUsed = process.env.REDIS_PORTS_IN_USE;
+					await PortHandler.setPort(portsUsed, user.port);
 
-					const cookies = await Cookies.setCookies(userSessionToken, expiration);
+					const cookies = await Cookies.setCookies(
+						userSessionToken, expiration, user.port
+						);
 
 					// Sending cookies to browser
 					res.set('Set-Cookie', [...cookies]);
 
 					return res.status(200).redirect(`/user/${user._id}/explore`);
 				} catch (error) {
-						console.error(`Session Key Creation Error: ${error.message}`);
+						console.error(`${this.login.name}: ${error.message}`);
+						return res.status(401).redirect('/user/login');
 				}
 			}
 			else {
@@ -75,19 +80,25 @@ export default class UsersController {
 		}
 
 		try {
-			const userId = await Session.getUser(userSessionToken);
-			console.log(userId);
+			var userId = await Session.getUser(userSessionToken);
 			if (!userId) {
 				return res.status(401).redirect('/user/login');
 			}
 
 			await Session.deleteUser(userSessionToken);
-			// Sending cookies to browser
+			// Deleting cookies from browser
 			res.clearCookie('session', { path: '/user'});
+			if (req.cookies.port) {
+				res.clearCookie('port', { path: '/user'});
+
+				const portsUsed = process.env.REDIS_PORTS_IN_USE;
+				await PortHandler.delPort(portsUsed, req.cookies.port);
+			}
 			return res.status(204).redirect('/');
 		}
 		catch (error) {
-			console.error(`Redis Session Key Retrieval Error: ${error.message}`);
+			console.error(`Logout: ${error.message}`);
+			return res.status(401).redirect(`/user/${userId}/explore`);
 		}
 	}
 	
@@ -110,7 +121,6 @@ export default class UsersController {
 		const user = await User.findById({ _id: userId });
 
 		if (!user) {
-
 			console.error('User Retrieval Error');
 			return res.status(404).redirect('/user/login');
 		}
@@ -165,6 +175,12 @@ export default class UsersController {
 		await User.deleteOne({ _id: userId });
 		await Session.deleteUser(userSessionToken);
 
+		// Delete user's port from both sets in Redis
+		const portsUsed = process.env.REDIS_PORTS_IN_USE;
+		await PortHandler.setRemove(portsUsed, req.cookies.port);
+		const portsAssigned = process.env.REDIS_PORTS_ASSIGNED;
+		await PortHandler.setRemove(portsAssigned, req.cookies.port);
+
 		return res.status(204).redirect('/');
 	}
 
@@ -182,7 +198,7 @@ export default class UsersController {
 
 		if (session_key) {
 		  let userSessionToken = await Session.getUser(session_key);
-		  if (userSessionToken)
+		  if (userSessionToken.userId)
 		    return res.status(200).redirect(`/user/${userSessionToken.userId}/explore`);
 		}
 
@@ -198,10 +214,14 @@ export default class UsersController {
 		const userSessionToken = await Session.setUser(
 			userTokenData.userId, expiration, userTokenData.accessToken
 			);
-		await PortHandler.setPort('ports:in_use', userTokenData.userPort);
+		
+		const portsUsed = process.env.REDIS_PORTS_IN_USE;
+		await PortHandler.setPort(portsUsed, userTokenData.userPort);
 
 		// Set cookies
-		const cookies = await Cookies.setCookies(userSessionToken, expiration);
+		const cookies = await Cookies.setCookies(
+			userSessionToken, expiration, userTokenData.userPort
+			);
 
 		// Sending cookies to browser
 		res.set('Set-Cookie', [...cookies]);

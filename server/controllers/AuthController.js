@@ -22,43 +22,48 @@ export default class AuthController {
 			return res.status(400).send({ error : "Missing last name" });
 		}
 
-		// Establish a connection to the database
-		await db.connect();
-		console.log(`Is database connection alive? ${db.isAlive()}`);
+		try {
+			// Establish a connection to the database
+			await db.connect();
 
-		const schemaVersion = process.env.SCHEMA_VERSION || 1.0;
+			const schemaVersion = process.env.SCHEMA_VERSION || 1.0;
 
-		// Create user port and add to assigned ports set in Redis
-		const userPort = PortHandler.assignPort();
-		await PortHandler.setPort('ports:assigned', userPort);
+			// Create user port and add to assigned ports set in Redis
+			const portsAssigned = process.env.REDIS_PORTS_ASSIGNED;
+			const userPort = await PortHandler.assignPort();
+			await PortHandler.setPort(portsAssigned, userPort);
 
-		bcrypt.genSalt(10, (err, salt) => {
-			bcrypt.hash(password, salt, async (err, hash) => {
-				if (err) {
-					console.error('Password Encryption Error');
-					return res.status(500).redirect('/');
-				}
+			bcrypt.genSalt(10, (err, salt) => {
+				bcrypt.hash(password, salt, async (err, hash) => {
+					if (err) {
+						console.error('Password Encryption Error');
+						return res.status(500).redirect('/');
+					}
 
-				const hashedPassword = hash;
-				const newUser = new User({
-					first_name: firstName,
-					last_name: lastName,
-					email: email,
-					password: hashedPassword,
-					port: userPort,
-					schema_version: schemaVersion,
+					const hashedPassword = hash;
+					const newUser = new User({
+						first_name: firstName,
+						last_name: lastName,
+						email: email,
+						password: hashedPassword,
+						port: userPort,
+						schema_version: schemaVersion,
+					});
+
+					if (!newUser) {
+						console.error('User Creation Error');
+						return res.status(400).redirect('/');
+					}
+
+					// Save new user in database
+					await newUser.save();
+
+					return res.status(200).redirect('/user/login');
 				});
-
-				if (!newUser) {
-					console.error('User Creation Error');
-					return res.status(400).redirect('/');
-				}
-
-				// Save new user in database
-				await newUser.save();
-
-				return res.status(200).redirect('/user/login');
 			});
-		});
+		} catch(error) {
+			console.error(`${this.signup.name}: ${error.message}`);
+			return res.status(400).redirect('/auth/signup');
+		}
 	}
 }
