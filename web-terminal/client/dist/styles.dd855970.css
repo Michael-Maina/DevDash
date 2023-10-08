@@ -1,0 +1,69 @@
+*{
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+}
+
+body::-webkit-scrollbar{
+  display: none;
+}
+/* *::-webkit-scrollbar{
+  display: none;
+} */
+canvas{
+  /*This edits the xterm layers*/
+  height: 100% !important;
+  width: 100% !important;
+  padding: 10px 5px;
+}
+.xterm-screen{
+  /* height: 100% !important; */
+  width: 90% !important;
+}
+.main-container{
+  width: 100%;
+  display: flex;
+  position: relative;
+}
+.content{
+  display: inline;
+  /* border: 2px solid red; */
+  height: 100vh;
+  resize: horizontal;
+  overflow: auto;
+  background-color: #f7f7f7;
+  min-width: 40%;
+}
+.term-div{
+  flex: 1;
+  min-width: 40%;
+  height: 100vh;
+  display: inline;
+  /* border: 2px solid black; */
+}
+#terminal-container{
+  display: inline;
+  /* position: fixed; */
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+}
+
+.xterm-veiwport{
+  height: 100%;
+  width: 100%;
+}
+.xterm{
+  height: 100%;
+  width: 100%;
+}
+
+
+
+/*# sourceMappingURL=/styles.dd855970.css.map */

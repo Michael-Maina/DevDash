@@ -1,0 +1,76 @@
+<!DOCTYPE html><html><head>
+    <title>How to create web terminals</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="./src/style.css">
+    <link rel="stylesheet" href="./src/content.css">
+  </head>
+
+  <body>
+    <section class="main-container">
+      <div class="content"><h1>Introduction</h1>
+<p>Emacs is a powerful and highly customizable text editor that can be used directly within your terminal. This tutorial will introduce you to the basics of using Emacs in a terminal environment, from opening files to basic text editing and saving.</p>
+<h2>Prerequisites</h2>
+<p>Before we begin, make sure you have Emacs installed on your system. You can typically install it using your system's package manager. For example, on Ubuntu, you can run:</p>
+<pre><code class="language-bash">sudo apt-get install emacs
+</code></pre>
+<h2>Launching Emacs</h2>
+<p>To start using Emacs, open your terminal and run the following command:</p>
+<pre><code class="language-bash">emacs
+</code></pre>
+<p>This will launch Emacs in your terminal window.</p>
+<h2>Basic Navigation and Editing</h2>
+<h3>Key Concepts</h3>
+<ul>
+<li><p>Emacs uses key combinations for various actions. Most of these key combinations involve holding down the <code>Ctrl</code> (<code>C</code>) or <code>Meta</code> (<code>M</code>) key (often represented by <code>Alt</code>) and pressing another key. For example, <code>C-x</code> means press and hold the <code>Ctrl</code> key, then press <code>x</code>.</p>
+</li>
+<li><p>To exit Emacs, press <code>C-x C-c</code>.</p>
+</li>
+</ul>
+<h3>Opening and Creating Files</h3>
+<ol>
+<li><p>Open an existing file by pressing <code>C-x C-f</code> and then enter the file path. If the file doesn't exist, Emacs will create a new one.</p>
+</li>
+<li><p>Save the current file with <code>C-x C-s</code>.</p>
+</li>
+<li><p>Save the file with a different name using <code>C-x C-w</code>.</p>
+</li>
+</ol>
+<h3>Basic Text Editing</h3>
+<ul>
+<li><p>Move the cursor:</p>
+<ul>
+<li><code>C-p</code> - Move cursor up (previous line).</li>
+<li><code>C-n</code> - Move cursor down (next line).</li>
+<li><code>C-b</code> - Move cursor left (back).</li>
+<li><code>C-f</code> - Move cursor right (forward).</li>
+</ul>
+</li>
+<li><p>Cut, copy, and paste:</p>
+<ul>
+<li><code>C-k</code> - Cut (kill) text from the cursor position to the end of the line.</li>
+<li><code>M-w</code> - Copy (kill-ring save) text.</li>
+<li><code>C-y</code> - Paste (yank) the most recently killed text.</li>
+</ul>
+</li>
+<li><p>Undo and redo:</p>
+<ul>
+<li><code>C-/</code> or <code>C-x u</code> - Undo.</li>
+<li><code>M-/</code> - Redo (only works in some versions of Emacs).</li>
+</ul>
+</li>
+</ul>
+<h3>Exiting Emacs</h3>
+<p>To exit Emacs, press <code>C-x C-c</code>. If you have unsaved changes, Emacs will ask if you want to save them before quitting.</p>
+<h2>Customization</h2>
+<p>Emacs is highly customizable. You can create and modify configuration files to tailor it to your preferences. The main configuration file is usually located at <code>~/.emacs</code> or <code>~/.emacs.d/init.el</code>.</p>
+<h2>Conclusion</h2>
+<p>This tutorial covers the basics of using Emacs as a terminal text editor. With practice, you can become proficient in Emacs and take advantage of its advanced features and extensive customization options.</p>
+</div>
+      <div class="term-div">
+        <div id="terminal-container"></div>
+      </div>
+    </section>
+    <script src="./src/index.js"></script>
+  
+
+</body></html>
