@@ -72,8 +72,6 @@ Please note that this document provides a basic setup for running the applicatio
 
 If you encounter any issues or have questions, please refer to the troubleshooting section in the project's documentation or reach out to our support team.
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](link-to-license)
-
 ---
 
 *Note: Ensure that you have the specified versions of the required technologies installed before proceeding with the setup. The `.env` file allows you to configure environment-specific settings for your instance of the Developer Learning Platform.*

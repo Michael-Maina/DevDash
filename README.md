@@ -41,10 +41,6 @@ To run the DevDash on your local machine, please refer to the project's [install
 - DevDash leverages the power of open-source technologies and libraries to create an immersive learning experience for developers.
 - Special thanks to the communities behind Docker, Node.js, Express.js, MongoDB, Xterm, and Socket.IO for their contributions to this project.
 
-For more detailed information on contributing or deploying this application, please check the project's [full documentation](link-to-documentation).
-
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](link-to-license)
-
 ---
 
 *Note: This README provides an overview of the DevDash Developer Learning Platform and its tech stack. For detailed information on how to contribute or run the application on another platform, please refer to the project's documentation.*
