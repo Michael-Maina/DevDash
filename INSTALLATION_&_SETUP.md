@@ -1,7 +1,3 @@
-Certainly, here's a template for the installation and setup instructions document that includes the specified technologies and allows for specifying their versions, as well as guidance on using a .env file for environment variables:
-
----
-
 # Installation and Setup Instructions
 
 This document provides step-by-step instructions to help you set up the Developer Learning Platform on your local environment. Before you begin, ensure that you have the following technologies and their respective versions installed:
