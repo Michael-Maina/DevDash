@@ -1,6 +1,6 @@
 # Installation and Setup Instructions
 
-This document provides step-by-step instructions to help you set up DevDasg on your local environment. Before you begin, ensure that you have the following technologies and their respective versions installed:
+This document provides step-by-step instructions to help you set up DevDash on your local environment. Before you begin, ensure that you have the following technologies and their respective versions installed:
 
 - **Node.js**: Version 18.17.1
 - **MongoDB**: Version 6.0.10
