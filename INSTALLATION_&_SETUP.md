@@ -44,9 +44,10 @@ REDIS_PORTS_ASSIGNED='ports:assigned'
 
 # User Session
 SESSION_EXPIRATION=24 # In hours
+```
 
 Replace the placeholder values with your specific configurations.
-```
+
 ## Step 4: Start the Application
 
 Run the following command to start the Developer Learning Platform:
