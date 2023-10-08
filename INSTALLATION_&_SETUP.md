@@ -50,7 +50,7 @@ Replace the placeholder values with your specific configurations.
 
 ## Step 4: Start the Application
 
-Run the following command to start the Developer Learning Platform:
+Run the following command to start DevDash:
 
 ```bash
 npm start
