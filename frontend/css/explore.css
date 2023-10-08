@@ -1,17 +1,19 @@
-.courses {
+/*.courses {
     margin-top: 10rem;
 }
 
-/*.courses_container {
-    display: grid;
+.courses_container {
+    display: block;
     grid-template-columns: repeat(1fr);
     gap: 2rem;
     justify-content: space-around;
     height: 200px;
-} */
+} 
 
 .courses_container {
-    max-width: 600px;
+    display: flex;
+    justify-content: space-between;
+    max-width: 900px;
     margin: 0 auto;
     padding: 20px;
 }
@@ -23,6 +25,8 @@
     border: 1px solid transparent;
     transition: var(--transition);
     height: 100%;
+    padding: 20px;
+    flex: 1;
 }
 
 .course:hover {
@@ -32,10 +36,52 @@
 
 .course_info {
     padding: 2rem;
-    flex: 3;
+    flex: 1;
 }
 
 .course_info p {
     margin: 1.2rem 0 2rem;
     font-size: 0.9rem;
 }  
+*/
+
+.courses_container {
+    display: flex;
+    flex-direction: column; /* Stack cards vertically */
+    padding: 10px;
+}
+
+.course {
+    display: flex;
+    background-color: var(--color-bg1);
+    border: 1px solid var(--color-bg2);
+    border-radius: 8px;
+    margin-bottom: 15px; /* Adjust as needed for spacing between cards */
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.course_image img {
+    width: 400px;
+    height: auto;
+    display: block;
+}
+
+.course_info {
+    padding: 15px;
+}
+
+
+/*.btn-primary {
+    background-color: #3498db;
+    color: #fff;
+    text-decoration: none;
+    padding: 10px 15px;
+    border-radius: 4px;
+    display: inline-block;
+    margin-top: 10px;
+}
+
+.btn-primary:hover {
+    background-color: #217dbb;
+}*/
