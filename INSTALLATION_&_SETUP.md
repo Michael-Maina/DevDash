@@ -58,7 +58,7 @@ npm start
 
 ## Step 5: Access the Application
 
-You can access the Developer Learning Platform in your web browser at the following URL:
+You can access DevDash in your web browser at the following URL:
 
 ```plaintext
 http://localhost:3000
