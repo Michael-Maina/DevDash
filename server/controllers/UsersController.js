@@ -185,48 +185,51 @@ export default class UsersController {
 	}
 
 	static async googleLogin(req, res) {
-		/** 
-		 * Receives userTokenData from middleware
-		 * Sets access_token as session token
-		 * If access_token expired, use refresh token to acquire a new one
-		 * Automatically sign in user and redirect to explore page
-		 * 
-		*/
-
-		// Check if user is already signed in
-		const session_key = req.cookies.session;
-
-		if (session_key) {
-		  let userSessionToken = await Session.getUser(session_key);
-		  if (userSessionToken.userId)
-		    return res.status(200).redirect(`/user/${userSessionToken.userId}/explore`);
+		const refresh_token = req.cookies.refresh_token;
+		if (!refresh_token) {
+			console.error('Missing User Refresh Token from Google Login');
+			return res.status(403).redirect('/auth/signup');
 		}
 
-		const userTokenData = req.userTokenData;
+    try {
+			const rootUrl = process.env.GOOGLE_GET_TOKENS_URL;
+			const refresh_token = req.cookies.refresh_token;
+			const user = await User.findOne({ refresh_token }).exec();
+			const userId = user._id.toString();
+			const values = {
+      	client_id: process.env.GOOGLE_TEST_CLIENT_ID,
+      	client_secret: process.env.GOOGLE_TEST_CLIENT_SECRET,
+    	  refresh_token,
+  	    grant_type: 'refresh_token',
+	    };
 
-		if (!userTokenData) {
-			console.error('Missing User Token Data from Google Login');
-			return res.status(403).redirect('/user/login');
+      const result = await axios.post(rootUrl, qs.stringify(values), {
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+      });
+
+      const accessToken = result.data.access_token;
+      const expiresIn = result.data.expires_in;
+
+			// Create a session for the user
+			const expiration = expiresIn / 3600; // Convert expires_in from seconds to hours
+			const userSessionToken = await Session.setUser(userId, expiration, accessToken);
+			
+			const portsUsed = process.env.REDIS_PORTS_IN_USE;
+			await PortHandler.setPort(portsUsed, user.port);
+
+			// Set cookies
+			const cookies = await Cookies.setCookies(userSessionToken, expiration, userPort);
+
+			// Sending cookies to browser
+			res.set('Set-Cookie', [...cookies]);
+
+			// Redirect back to the client
+			return res.status(200).redirect(`/user/${userId}/explore`);
+		} catch(error) {
+			console.error(`${this.googleLogin.name}: ${error.message}`);
+			return res.status(401).redirect('/user/login');
 		}
-
-		// Create a session for the user
-		const expiration = userTokenData.expires_in / 3600; // Convert expires_in from seconds to hours
-		const userSessionToken = await Session.setUser(
-			userTokenData.userId, expiration, userTokenData.accessToken
-			);
-		
-		const portsUsed = process.env.REDIS_PORTS_IN_USE;
-		await PortHandler.setPort(portsUsed, userTokenData.userPort);
-
-		// Set cookies
-		const cookies = await Cookies.setCookies(
-			userSessionToken, expiration, userTokenData.userPort
-			);
-
-		// Sending cookies to browser
-		res.set('Set-Cookie', [...cookies]);
-
-		// Redirect back to the client
-		return res.status(200).redirect(`/user/${userTokenData.userId}/explore`);
 	}
 }

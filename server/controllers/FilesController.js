@@ -13,7 +13,7 @@ class FilesController {
       const parsed_html = marked.parse(md_data);
 
       // Load the HTML template
-      const templatePath = '/home/murags/Dennis/DevDash/frontend/tutorial.html'; // Update the path as needed
+      const templatePath = '/home/twowheeledlad/alx-specialization/DevDash/frontend/tutorial.html'; // Update the path as needed
       const templateHtml = (await fs.readFile(templatePath)).toString();
 
       // Load the template HTML into cheerio
@@ -26,7 +26,7 @@ class FilesController {
       const modifiedHtml = $.html();
 
       // Write the modified HTML to a new file
-      await fs.writeFile('/home/murags/Dennis/DevDash/frontend/content_page.html', modifiedHtml);
+      await fs.writeFile('/home/twowheeledlad/alx-specialization/DevDash/frontend/content_page.html', modifiedHtml);
       return;
     } catch (error) {
       // Handle error

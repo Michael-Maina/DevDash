@@ -24,9 +24,9 @@ emacs_btn.addEventListener("click", (e) => {
 let logout_btn = document.querySelector('#logout-btn');
 
 
-function logoutFunc()
+function logoutFunc(userId)
 {
-    fetch('http://localhost:3000/user/logout', {
+    fetch(`http://localhost:3000/user/${userId}/logout`, {
         method: "POST",
         })
         .then((response) => {
@@ -43,5 +43,6 @@ function logoutFunc()
 }
 
 logout_btn.addEventListener("click", (e) => {
-  logoutFunc();
+    let userId = window.location.href.split("/")[4];
+    logoutFunc(userId);
 });

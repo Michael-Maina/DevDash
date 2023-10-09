@@ -1,14 +1,16 @@
 import axios from 'axios';
 import jwt from 'jsonwebtoken';
 import qs from 'qs';
+import Cookies from '../utils/cookies.js';
 import DBStorage from '../utils/db.js';
 import PortHandler from '../utils/portHandler.js';
+import Session from '../utils/session.js';
 import User from "../utils/models/users.js";
 
 const db = new DBStorage();
 
 export default class GoogleAuthController {
-  static async getUser(req, res, next) {
+  static async getUser(req, res) {
     // Get code from query string
     const code = req.query.code;
 
@@ -30,14 +32,14 @@ export default class GoogleAuthController {
         },
       });
 
-      const id_token = result.data.id_token;
-      const access_token = result.data.access_token;
-      const refresh_token = result.data.refresh_token;
-      const expires_in = result.data.expires_in;
+      const idToken = result.data.id_token;
+      const accessToken = result.data.access_token;
+      const refreshToken = result.data.refresh_token;
+      const expiresIn = result.data.expires_in;
      
       // Get the user with ID token
       // Access token used with network request to Google API
-      const googleUser = jwt.decode(id_token);
+      const googleUser = jwt.decode(idToken);
       if (!googleUser.email_verified) {
         return res.status(403).redirect('/auth/signup');
       }
@@ -58,7 +60,7 @@ export default class GoogleAuthController {
           last_name: googleUser.family_name,
           email: googleUser.email,
           login: 'Google',
-          refresh_token: refresh_token,
+          refresh_token: refreshToken,
           port: userPort,
           schema_version: schemaVersion,
         },
@@ -67,19 +69,29 @@ export default class GoogleAuthController {
           new: true,
         }
       );
+
       // Add googleUser tokens to req object
-      const userTokenData = {
-        access_token,
-        refresh_token,
-        expires_in,
-        userId: newUser._id.toString(),
-        userPort,
-      }
-      req.userTokenData = userTokenData;
+      const userId = newUser._id.toString();
 
-      // Redirect to login page using middleware
-      next();
+      // Create a session for the user
+      const expiration = expiresIn / 3600; // Convert expires_in from seconds to hours
+      const userSessionToken = await Session.setUser(userId, expiration, accessToken);
+      
+      const portsUsed = process.env.REDIS_PORTS_IN_USE;
+      await PortHandler.setPort(portsUsed, userPort);
 
+      // Set cookies
+      const cookies = await Cookies.setCookies(userSessionToken, expiration, userPort);
+      const expiryDate = new Date();
+      expiryDate.setTime(expiryDate.getTime() + 365 * 24 * 60 * 60 * 1000);
+      expiryDate.toUTCString();
+
+      // Sending cookies to browser
+      res.set('Set-Cookie', [...cookies]);
+      res.set('Set-Cookie', [`refresh_token=${refreshToken}`, `Expires=${expiryDate}`]);
+
+      // Redirect back to the client
+      return res.status(200).redirect(`/user/${userId}/explore`);
     } catch(error) {
       console.error(error, ': Failed to fetch Google OAuth Tokens');
       return res.status(400).redirect('/auth/signup');

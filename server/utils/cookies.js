@@ -11,6 +11,7 @@ export default class Cookies {
       'domain=flanders.tech',
       'SameSite=Strict',
       'Secure',
+      'Path=/',
     ];
 
     return cookiesToSend;

@@ -32,3 +32,27 @@ form.addEventListener("submit", (e) =>{
     e.preventDefault();
     loginFunc();
 });
+
+function googleLoginFunc()
+{
+    fetch('http://localhost:3000/user/login/google', {
+        method: "POST",
+        })
+        .then((response) => {
+            console.log(response);
+            if (response.redirected)
+            {
+                window.location.href = response.url;
+            }
+        })
+        .catch((error) => {
+            // Handle any errors
+            console.error("Error:", error);
+    });
+}
+let google = document.querySelector("#google-login");
+
+google.addEventListener("click", (e) =>{
+    e.preventDefault();
+    googleLoginFunc();
+});

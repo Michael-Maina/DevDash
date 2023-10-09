@@ -1,5 +1,14 @@
 import Docker from 'dockerode';
 import { exec } from 'child_process';
+import { dirname } from 'path';
+import { fileURLToPath } from 'url';
+import path from 'path';
+
+// Get the current module's URL
+const __filename = fileURLToPath(import.meta.url);
+
+// Get the directory name
+const __dirname = dirname(__filename);
 
 const docker = new Docker();
 
@@ -9,7 +18,7 @@ export default class DockerClient {
       let desiredPort = req.cookies.port;
 
       // Define the path to your Docker command script file
-      const dockerCommandScript = './docker-command.sh';
+      const dockerCommandScript = path.join(__dirname, 'docker-command.sh');
 
       // Execute the Docker command script with the desired port number as an argument
       const child = exec(`bash ${dockerCommandScript} ${desiredPort}`);
@@ -26,7 +35,7 @@ export default class DockerClient {
       child.on('close', (code) => {
         console.log(`child process exited with code ${code}`);
       });
-      res.json({ message: `Container created and started successfully` });
+      // res.json({ message: `Container created and started successfully` });
 
       next();
 
@@ -36,14 +45,35 @@ export default class DockerClient {
     }
   }
 
-  // app.get('/containers', async (req, res) => {
+  // static async destroyContainer(req, res, next) {
   //   try {
-  //     // List all running containers
-  //     const containers = await docker.listContainers({ all: true });
+  //     let desiredPort = req.cookies.port;
 
-  //     res.json({ containers });
+  //     // Define the path to your Docker command script file
+  //     const dockerCommandScript = path.join(__dirname, 'docker-destroy.sh');
+
+  //     // Execute the Docker command script with the desired port number as an argument
+  //     const child = exec(`bash ${dockerCommandScript} ${desiredPort}`);
+
+  //     // Execute the Docker command script
+  //     child.stdout.on('data', (data) => {
+  //       console.log(`stdout: ${data}`);
+  //     });
+
+  //     child.stderr.on('data', (data) => {
+  //       console.error(`stderr: ${data}`);
+  //     });
+
+  //     child.on('close', (code) => {
+  //       console.log(`child process exited with code ${code}`);
+  //     });
+  //     // res.json({ message: `Container created and started successfully` });
+
+  //     next();
+
   //   } catch (error) {
-  //     res.status(500).json({ error: 'Failed to list containers' });
+  //     console.log(error)
+  //     res.status(500).json({ error: 'Failed to destroy container' });
   //   }
-  // });
+  // }
 }

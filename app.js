@@ -12,6 +12,7 @@ import cors from 'cors';
 import path from 'path';
 import { exec } from 'child_process';
 import filesController from './server/controllers/FilesController.js'
+import DockerClient from './server/webterm-server/docker.js';
 
 
 // Get the current module's URL
@@ -33,9 +34,9 @@ app.use(cors());
 
 app.use(express.json());
 app.use(cookieParser());
-// app.use('/');
 app.use('/auth', authRouter);
 app.use('/user', loginRouter); // Used for the login path
+
 // Middleware function to authenticate login
 app.use('/user/:userId', async (req, res, next) => {
   if (!req.cookies.session) {
@@ -77,6 +78,7 @@ app.use('/user/:userId', async (req, res, next) => {
     }
   }
 });
+
 app.use('/user/:userId', userRouter); // Used after login, with userId now available
 
 app.get('/', (req, res) => {
@@ -95,27 +97,25 @@ app.get('/about', (req, res) => {
   res.sendFile(__dirname + "/frontend/public/about.html");
 });
 
-// app.get('/login', (req, res) => {
-//   res.send('<h1>Explore DevDash</h1>')
-//   // res.sendFile(__dirname + "/frontend/public/login.html");
-// });
-
 
 app.use(express.static(path.join(__dirname, 'dist')));
 
-app.get('/user/:userId/tutorial/:title', async (req, res) => {
+app.get('/user/:userId/tutorial/:title', DockerClient.createContainer, async (req, res) => {
   // Run Parcel to bundle the entry file
   const title = req.params.title;
 
+  // console.log(`Tutorial: ${title}`);
   await filesController.formatConverter(`./server/articles/markdown/${title}.md`);
+  // console.log('Tutorial converted');
 
-  exec('npx parcel build frontend/content_page.html', (error, stdout, stderr) => {
+  exec('npx parcel build ./frontend/content_page.html', (error, stdout, stderr) => {
     if (error) {
       console.error('Parcel bundling error:', error);
       return res.status(500).send('Error bundling JavaScript.');
     }
 
     // Serve the HTML file
+    console.log('About to send file to client');
     return res.sendFile(path.join(__dirname, '/dist/content_page.html'));
   });
 });

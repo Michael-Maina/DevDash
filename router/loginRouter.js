@@ -13,6 +13,8 @@ const __dirname = dirname(__filename);
 const router = express.Router();
 
 router.post('/login', UsersController.login);
+router.post('/login/google', UsersController.googleLogin);
+
 router.use(express.static(path.join(__dirname, '../frontend/public')));
 
 router.get('/login', (req, res) => {
