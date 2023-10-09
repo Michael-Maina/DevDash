@@ -62,7 +62,7 @@ export default class UsersController {
 
 					return res.status(200).redirect(`/user/${user._id}/explore`);
 				} catch (error) {
-						console.error(`${this.login.name}: ${error.message}`);
+						console.error(`Default Login: ${error.message}`);
 						return res.status(401).redirect('/user/login');
 				}
 			}
@@ -228,7 +228,7 @@ export default class UsersController {
 			// Redirect back to the client
 			return res.status(200).redirect(`/user/${userId}/explore`);
 		} catch(error) {
-			console.error(`${this.googleLogin.name}: ${error.message}`);
+			console.error(`Google Login: ${error.message}`);
 			return res.status(401).redirect('/user/login');
 		}
 	}

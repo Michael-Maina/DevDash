@@ -38,25 +38,25 @@ app.use('/user', authRouter);
 app.use('/user', loginRouter); // Used for the login path
 
 // Middleware function to authenticate login
-app.use('/user/:userId', async (req, res, next) => {
-  if (!req.cookies.session) {
-    console.log('Redirecting user not signed in: No session cookie');
-    return res.status(403).redirect('/user/login');
-  } else {
-    try {
-      const sessionCookie = req.cookies.session;
-      const userSessionToken = await Session.getUser(sessionCookie);
-      if (!userSessionToken) {
-        console.log('Redirecting user not signed in: Session Token Expired');
-			  res.clearCookie('session', { path: '/user'});
-        if (req.cookies.port) {
-          res.clearCookie('port', { path: '/user'});
+// app.use('/user/:userId', async (req, res, next) => {
+//   if (!req.cookies.session) {
+//     console.log('Redirecting user not signed in: No session cookie');
+//     return res.status(403).redirect('/user/login');
+//   } else {
+//     try {
+//       const sessionCookie = req.cookies.session;
+//       const userSessionToken = await Session.getUser(sessionCookie);
+//       if (!userSessionToken) {
+//         console.log('Redirecting user not signed in: Session Token Expired');
+// 			  res.clearCookie('session', { path: '/user'});
+//         if (req.cookies.port) {
+//           res.clearCookie('port', { path: '/user'});
   
-          const portsUsed = process.env.REDIS_PORTS_IN_USE;
-          await PortHandler.delPort(portsUsed, req.cookies.port);
-        }
-        return res.status(403).redirect('/user/login');
-      }
+//           const portsUsed = process.env.REDIS_PORTS_IN_USE;
+//           await PortHandler.delPort(portsUsed, req.cookies.port);
+//         }
+//         return res.status(403).redirect('/user/login');
+//       }
       // if (userSessionToken.userId !== req.params.userId){
       //   console.log('Redirecting user not signed in: Session Token Invalid');
       //   console.log(`Session UserID: ${userSessionToken.userId}`);
@@ -71,13 +71,13 @@ app.use('/user/:userId', async (req, res, next) => {
       //   }
       //   return res.status(403).redirect('/user/login');
       // }
-      next();
-    } catch(error) {
-      console.error(`Error Retrieving Session Token: Redirecting to Login Page`);
-      return res.status(403).redirect('/user/login');
-    }
-  }
-});
+//       next();
+//     } catch(error) {
+//       console.error(`Error Retrieving Session Token: Redirecting to Login Page`);
+//       return res.status(403).redirect('/user/login');
+//     }
+//   }
+// });
 
 app.use('/user/:userId', userRouter); // Used after login, with userId now available
 
@@ -108,7 +108,7 @@ app.get('/user/:userId/tutorial/:title', DockerClient.createContainer, async (re
   await filesController.formatConverter(`./server/articles/markdown/${title}.md`);
   // console.log('Tutorial converted');
 
-  exec('npx parcel build ./frontend/content_page.html', (error, stdout, stderr) => {
+  exec('npx parcel build frontend/content_page.html', (error, stdout, stderr) => {
     if (error) {
       console.error('Parcel bundling error:', error);
       return res.status(500).send('Error bundling JavaScript.');

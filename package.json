@@ -33,7 +33,6 @@
     "mongodb": "^3.7.4",
     "mongoose": "^7.5.3",
     "node-docker-api": "^1.1.22",
-    "parcel": "^1.12.4",
     "path": "^0.12.7",
     "redis": "^4.6.10",
     "sha1": "^1.1.1",
