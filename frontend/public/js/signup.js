@@ -13,7 +13,7 @@ function signupFunc()
 
     console.log(signup_data);
 
-    fetch('http://localhost:3000/auth/signup', {
+    fetch('http://localhost:3000/user/signup', {
         method: "POST",
         headers: {
             "Content-Type": "application/json",

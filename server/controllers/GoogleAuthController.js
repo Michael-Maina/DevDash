@@ -41,7 +41,7 @@ export default class GoogleAuthController {
       // Access token used with network request to Google API
       const googleUser = jwt.decode(idToken);
       if (!googleUser.email_verified) {
-        return res.status(403).redirect('/auth/signup');
+        return res.status(403).redirect('/user/signup');
       }
 
       // Upsert the user into the database
@@ -94,7 +94,7 @@ export default class GoogleAuthController {
       return res.status(200).redirect(`/user/${userId}/explore`);
     } catch(error) {
       console.error(error, ': Failed to fetch Google OAuth Tokens');
-      return res.status(400).redirect('/auth/signup');
+      return res.status(400).redirect('/user/signup');
     }
   }
 }

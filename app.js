@@ -34,7 +34,7 @@ app.use(cors());
 
 app.use(express.json());
 app.use(cookieParser());
-app.use('/auth', authRouter);
+app.use('/user', authRouter);
 app.use('/user', loginRouter); // Used for the login path
 
 // Middleware function to authenticate login
@@ -57,20 +57,20 @@ app.use('/user/:userId', async (req, res, next) => {
         }
         return res.status(403).redirect('/user/login');
       }
-      if (userSessionToken.userId !== req.params.userId){
-        console.log('Redirecting user not signed in: Session Token Invalid');
-        console.log(`Session UserID: ${userSessionToken.userId}`);
-        console.log(`Parameters UserID: ${req.params.userId}`);
-        await Session.deleteUser(sessionCookie);
-			  res.clearCookie('session', { path: '/user'});
-        if (req.cookies.port) {
-          res.clearCookie('port', { path: '/user'});
+      // if (userSessionToken.userId !== req.params.userId){
+      //   console.log('Redirecting user not signed in: Session Token Invalid');
+      //   console.log(`Session UserID: ${userSessionToken.userId}`);
+      //   console.log(`Parameters UserID: ${req.params.userId}`);
+      //   await Session.deleteUser(sessionCookie);
+			//   res.clearCookie('session', { path: '/user'});
+      //   if (req.cookies.port) {
+      //     res.clearCookie('port', { path: '/user'});
   
-          const portsUsed = process.env.REDIS_PORTS_IN_USE;
-          await PortHandler.delPort(portsUsed, req.cookies.port);
-        }
-        return res.status(403).redirect('/user/login');
-      }
+      //     const portsUsed = process.env.REDIS_PORTS_IN_USE;
+      //     await PortHandler.delPort(portsUsed, req.cookies.port);
+      //   }
+      //   return res.status(403).redirect('/user/login');
+      // }
       next();
     } catch(error) {
       console.error(`Error Retrieving Session Token: Redirecting to Login Page`);

@@ -188,7 +188,7 @@ export default class UsersController {
 		const refresh_token = req.cookies.refresh_token;
 		if (!refresh_token) {
 			console.error('Missing User Refresh Token from Google Login');
-			return res.status(403).redirect('/auth/signup');
+			return res.status(403).redirect('/user/signup');
 		}
 
     try {
